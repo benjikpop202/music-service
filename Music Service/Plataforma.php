@@ -19,12 +19,15 @@ class Plataforma{
      $this->usuarios[] = $NewUsuario;
     }
     public function eliminarUser($contraseña){
+        $usuarioEliminar = false;
         foreach($this->usuarios as $indice => $usuario){
          if($usuario->getContraseña() === $contraseña){
-            write("gracias por utilizar music service, su cuenta ah sido eliminada");
             unset($this->usuarios[$indice]);
+            $usuarioEliminar = true;
+            write("gracias por utilizar music service, su cuenta ah sido eliminada");
+            exit();
          }
-         else{
+         if(!$usuarioEliminar){
             write("contraseña incorrecta");
          }
         }

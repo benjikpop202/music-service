@@ -53,6 +53,9 @@ class Usuario{
           switch ($opcion) {
                case 0: break;
                case 1: agregarCancion($lista); break;
+               case 2: verCancion($lista); break;
+               case 3: modificarCancion($lista); break;
+               case 4: eliminarCancion($lista); break;
                default: write("opcion invalida"); break;
           } 
      }
