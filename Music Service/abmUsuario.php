@@ -31,6 +31,9 @@ class Usuario{
     public function getStatus(){
          return $this->Status;
     }
+     public function toJson(){
+         # return json_encode($this->toArray());
+     }
     public function Guardar($newLista){
      $this->Biblioteca[] = $newLista;
     }
