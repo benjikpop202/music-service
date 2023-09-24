@@ -31,7 +31,7 @@ class Usuario{
     public function getStatus(){
          return $this->Status;
     }
-     public function toJson(){
+   /*  public function toJson(){
           return json_encode($this->toArray());
      }
      public static function fromJson($json) {
@@ -63,7 +63,7 @@ class Usuario{
         } else {
             return null; 
         }
-    }
+    }*/
 
     public function Guardar($newLista){
      $this->Biblioteca[] = $newLista;

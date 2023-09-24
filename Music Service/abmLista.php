@@ -41,7 +41,7 @@ class Lista{
             
         
         }
-        public function toJson() {
+       /* public function toJson() {
             return json_encode($this->toArray());
         }
         public static function fromJson($json) {
@@ -62,7 +62,7 @@ class Lista{
                 $lista->guardarCancion($cancion);
             }
             return $lista;
-        }
+        }*/
         
                        
     }

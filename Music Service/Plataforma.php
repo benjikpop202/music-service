@@ -90,10 +90,7 @@ public function inicioSesion($nombre,$email, $contraseña, $plataforma){
 }
 
 $musicService = new Plataforma("music service");
-$kpop = new Lista("kpop");
-$musicService->almacenarLista($kpop);
-$musicService->almacenarLista($EDM);
-$musicService->almacenarLista($rock);
+
 
 
 
