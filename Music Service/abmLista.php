@@ -71,8 +71,7 @@ class Lista{
 
 
 
-$rock = new lista("rock");
-$EDM = new Lista("EDM");
+
 
 
 
