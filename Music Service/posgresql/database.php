@@ -40,3 +40,4 @@ static function query($sql) {
 }
 
 }
+
