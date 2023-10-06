@@ -17,6 +17,7 @@ function crearLista($user){
     if($lista != null){
         $newlista = new lista($lista);
         $user->Guardar($newlista);
+        write("lista creada");
     }
     else{
         write("vuelva a ingresar un nombre");

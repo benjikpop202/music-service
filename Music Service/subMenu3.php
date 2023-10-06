@@ -10,7 +10,7 @@ $genero = readline("ingrese el genero: ");
 if($nombre != null || $artista != null || $genero != null){
 $cancion = new Cancion($nombre, $artista, $genero);
 $lista->guardarCancion($cancion);
-echo("cancion agregada exitosamente");
+write("cancion agregada exitosamente");
 }
 function verCancion($lista){
     $nombre = readline("ingrese cancion: ");
