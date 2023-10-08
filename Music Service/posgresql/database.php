@@ -18,7 +18,7 @@ static function nuevaConexion() {
     $usuario = 'smgxrufq';
     $password = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
 
-    $pDO = new PDO("mysql:host=$host;dbname=$dbname", $usuario, $password);
+    $pDO = new PDO("pg:host=$host;dbname=$dbname", $usuario, $password);
 
     if ($pDO) {
         echo ('Conexion exitosa'.PHP_EOL);
@@ -37,6 +37,11 @@ static function query($sql) {
     $statement = $pDO->query($sql, PDO::FETCH_OBJ);
     $resultado = $statement->fetchAll();
     return $resultado;
+}
+static function exec($sql) {
+    $pDO = self::getConexion();
+    $statement = $pDO->exec($sql);
+    
 }
 
 }
