@@ -58,7 +58,13 @@ else{
 }
 }
 //conseguir conexion
+$conexion = Conexion::getConexion();
 
+if ($conexion) {
+    echo "Conexión exitosa";
+} else {
+    echo "No se pudo establecer la conexión";
+}
 
 $line = null;
 while($line != "0"){
