@@ -1,41 +1,33 @@
 <?php
 class Conexion {
-    private static $pdo = null;
+    private static $instancia;
+    private $conexion;
 
     private function __construct() {
-        // Configuración de la base de datos
-        $host = 'silly.db.elephantsql.com';
-        $dbname = 'smgxrufq';
-        $usuario = 'smgxrufq';
+        $host = 'silly.db.elephantsql.com (silly-01)'; // Normalmente "localhost"
+        $dbname = 'Music Service';
+        $user = 'smgxrufq';
         $password = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
 
-        // Intenta establecer la conexión
-        try {
-            Conexion::$pdo = new PDO("pgsql:host=$host;dbname=$dbname", $usuario, $password);
-            Conexion::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Conexión exitosa" . PHP_EOL;
-        } catch (PDOException $e) {
-            echo "Error en la conexión: " . $e->getMessage() . PHP_EOL;
+        $this->conexion = pg_connect("host=$host dbname=$dbname user=$user password=$password");
+
+        if (!$this->conexion) {
+            echo "Error: No se pudo conectar a la base de datos.";
+            exit;
         }
     }
 
-    public static function getConexion() {
-        if (!Conexion::$pdo) {
-            new Conexion();
+    public static function obtenerInstancia() {
+        if (!self::$instancia) {
+            self::$instancia = new Conexion();
         }
-        return Conexion::$pdo;
-    }
-
-    public static function query($sql) {
-        $pdo = self::getConexion();
-        $statement = $pdo->query($sql);
-        $resultado = $statement->fetchAll(PDO::FETCH_OBJ);
-        return $resultado;
-    }
-
-    public static function exec($sql) {
-        $pdo = self::getConexion();
-        $rowCount = $pdo->exec($sql);
-        return $rowCount;
+        return self::$instancia->conexion;
     }
 }
+
+// Uso del Singleton para obtener la conexión a la base de datos
+$conexion = Conexion::obtenerInstancia();
+
+// Ahora puedes usar $conexion para realizar consultas a la base de datos
+
+
