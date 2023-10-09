@@ -1,32 +1,42 @@
 <?php
 class Conexion {
-    private static $instancia;
+    private $host = 'silly.db.elephantsql.com';
+    private $usuario = 'smgxrufq';
+    private $contrasena = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
+    private $base_de_datos = 'smgxrufq';
     private $conexion;
+    private static $instancia;
+
 
     private function __construct() {
-        $host = 'silly.db.elephantsql.com (silly-01)'; // Normalmente "localhost"
-        $dbname = 'Music Service';
-        $user = 'smgxrufq';
-        $password = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
-
-        $this->conexion = pg_connect("host=$host dbname=$dbname user=$user password=$password");
-
-        if (!$this->conexion) {
-            echo "Error: No se pudo conectar a la base de datos.";
-            exit;
+       
+        try {
+            $this->conexion = new PDO(
+                "pgsql:host={$this->host};dbname={$this->base_de_datos}",
+                $this->usuario,
+                $this->contrasena
+            );
+            // Si llegamos aquí, la conexión fue exitosa
+            echo "Conexión exitosa a la base de datos.";
+        } catch (PDOException $e) {
+            die("Error de conexión a la base de datos: " . $e->getMessage());
         }
     }
 
     public static function obtenerInstancia() {
-        if (!self::$instancia) {
+        if (self::$instancia == null) {
             self::$instancia = new Conexion();
         }
-        return self::$instancia->conexion;
+        return self::$instancia;
+    }
+
+    public function obtenerConexion() {
+        return $this->conexion;
     }
 }
 
 // Uso del Singleton para obtener la conexión a la base de datos
-$conexion = Conexion::obtenerInstancia();
+$conexion = Conexion::obtenerInstancia()->obtenerConexion();
 
 // Ahora puedes usar $conexion para realizar consultas a la base de datos
 
