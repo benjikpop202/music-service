@@ -5,6 +5,7 @@ require_once('abmLista.php');
 require_once('abmCancion.php');
 require_once('Plataforma.php');
 require_once('subMenu.php');
+require_once('posgresql/database.php');
 
 
 
