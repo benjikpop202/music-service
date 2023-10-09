@@ -1,48 +1,41 @@
 <?php
-
 class Conexion {
+    private static $pdo = null;
 
-static $pDO = null; 
+    private function __construct() {
+        // Configuración de la base de datos
+        $host = 'silly.db.elephantsql.com';
+        $dbname = 'smgxrufq';
+        $usuario = 'smgxrufq';
+        $password = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
 
-static public function getConexion() {
-    
-    if (!Conexion::$pDO) {
-        Conexion::$pDO = self::nuevaConexion();
-    }   
-    return Conexion::$pDO;
-}
-
-static function nuevaConexion() {
-    $host = 'silly.db.elephantsql.com (silly-01)'; // Normalmente "localhost"
-    $dbname = 'Music Service';
-    $usuario = 'smgxrufq';
-    $password = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
-
-    $pDO = new PDO("pg:host=$host;dbname=$dbname", $usuario, $password);
-
-    if ($pDO) {
-        echo ('Conexion exitosa'.PHP_EOL);
-    } else {
-        echo ('Error en Conexion'.PHP_EOL);
+        // Intenta establecer la conexión
+        try {
+            Conexion::$pdo = new PDO("pgsql:host=$host;dbname=$dbname", $usuario, $password);
+            Conexion::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "Conexión exitosa" . PHP_EOL;
+        } catch (PDOException $e) {
+            echo "Error en la conexión: " . $e->getMessage() . PHP_EOL;
+        }
     }
 
-    return $pDO;
-}
+    public static function getConexion() {
+        if (!Conexion::$pdo) {
+            new Conexion();
+        }
+        return Conexion::$pdo;
+    }
 
-/**
- * Recibe un sql de consulta y devuelve un arreglo de objetos
- */
-static function query($sql) {
-    $pDO = self::getConexion();
-    $statement = $pDO->query($sql, PDO::FETCH_OBJ);
-    $resultado = $statement->fetchAll();
-    return $resultado;
-}
-static function exec($sql) {
-    $pDO = self::getConexion();
-    $statement = $pDO->exec($sql);
-    
-}
+    public static function query($sql) {
+        $pdo = self::getConexion();
+        $statement = $pdo->query($sql);
+        $resultado = $statement->fetchAll(PDO::FETCH_OBJ);
+        return $resultado;
+    }
 
+    public static function exec($sql) {
+        $pdo = self::getConexion();
+        $rowCount = $pdo->exec($sql);
+        return $rowCount;
+    }
 }
-

@@ -57,6 +57,8 @@ else{
     write("faltan datos");
 }
 }
+//conseguir conexion
+
 
 $line = null;
 while($line != "0"){
