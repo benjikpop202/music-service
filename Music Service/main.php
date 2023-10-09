@@ -58,7 +58,7 @@ else{
 }
 }
 //conseguir conexion
-$conexion = Conexion::getConexion();
+
 
 if ($conexion) {
     echo "Conexión exitosa";

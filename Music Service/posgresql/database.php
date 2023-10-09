@@ -36,7 +36,8 @@ class Conexion {
 }
 
 // Uso del Singleton para obtener la conexión a la base de datos
-$conexion = Conexion::obtenerInstancia()->obtenerConexion();
+ global $conexion ;
+ $conexion = Conexion::obtenerInstancia()->obtenerConexion();
 
 // Ahora puedes usar $conexion para realizar consultas a la base de datos
 
