@@ -17,7 +17,7 @@ class Conexion {
                 $this->contrasena
             );
             // Si llegamos aquí, la conexión fue exitosa
-            echo "Conexión exitosa a la base de datos.";
+           // echo "Conexión exitosa a la base de datos.\n";
         } catch (PDOException $e) {
             die("Error de conexión a la base de datos: " . $e->getMessage());
         }
