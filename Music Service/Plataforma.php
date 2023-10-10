@@ -3,15 +3,19 @@
 require_once('abmLista.php');
 
 class Plataforma{
+    private $id;
     private $nombre;
     private $usuarios;
     private $listas;
-    public function __construct($nombre){
+    public function __construct($id,$nombre){
+    $this->id = $id;
     $this->nombre = $nombre;
     $this-> usuarios = [];
     $this-> listas = [];
     }
-
+    public function getIdPlataforma(){
+        return $this->id;
+    }
     public function getPlataforma(){
         return $this->nombre;
     }
@@ -89,7 +93,7 @@ public function inicioSesion($nombre,$email, $contraseña, $plataforma){
    
 }
 
-$musicService = new Plataforma("music service");
+$musicService = new Plataforma(333,"music service");
 
 
 

@@ -18,7 +18,7 @@ class Conexion {
             );
             // Si llegamos aquí, la conexión fue exitosa
            // echo "Conexión exitosa a la base de datos.\n";
-           
+
         } catch (PDOException $e) {
             die("Error de conexión a la base de datos: " . $e->getMessage());
         }
@@ -37,7 +37,7 @@ class Conexion {
 }
 
 // Uso del Singleton para obtener la conexión a la base de datos
- global $conexion ;
+ global $conexion;
  $conexion = Conexion::obtenerInstancia()->obtenerConexion();
 
 // Ahora puedes usar $conexion para realizar consultas a la base de datos

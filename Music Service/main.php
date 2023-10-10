@@ -7,7 +7,14 @@ require_once('Plataforma.php');
 require_once('subMenu.php');
 require_once('posgresql/database.php');
 
+//insertar plataforma
+$insert_plataforma = "INSERT INTO Plataforma (id, nombre) VALUES ( :id , :nombre)";
 
+$consulta = $conexion->prepare($insert_plataforma);
+
+// Bind de los parámetros
+$consulta->bindParam(':id', $musicService->getIdPlataforma(), PDO::PARAM_INT);
+$consulta->bindParam(':nombre', $musicService->getPlataforma(), PDO::PARAM_STR);
 
 
 function registrarse($plataforma){
