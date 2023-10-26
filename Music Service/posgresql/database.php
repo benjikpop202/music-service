@@ -1,6 +1,6 @@
 <?php
 class Conexion {
-    private $host = 'isabelle.db.elephantsql.com isabelle-01';
+    private $host = 'isabelle.db.elephantsql.com ';
     private $usuario = 'rfzwukyv';
     private $contrasena = 'okiry0vSixlLjJLOVYlWLhKkZeg_-RDd';
     private $base_de_datos = 'rfzwukyv';
