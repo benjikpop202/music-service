@@ -1,9 +1,9 @@
 <?php
 class Conexion {
-    private $host = 'silly.db.elephantsql.com';
-    private $usuario = 'smgxrufq';
-    private $contrasena = 'zPVZhEyKcLsE2ycMFtTsU0d_P1WS7f6y';
-    private $base_de_datos = 'smgxrufq';
+    private $host = 'isabelle.db.elephantsql.com isabelle-01';
+    private $usuario = 'rfzwukyv';
+    private $contrasena = 'okiry0vSixlLjJLOVYlWLhKkZeg_-RDd';
+    private $base_de_datos = 'rfzwukyv';
     private $conexion;
     private static $instancia;
 
