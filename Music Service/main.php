@@ -11,7 +11,6 @@ require_once('posgresql/database.php');
 
 
 
-
 function registrarse($plataforma){
     write("Login");
     write("=======");
