@@ -92,6 +92,7 @@ while($linea != "0" ){
      $linea = readline("ingrese opcion:\n");
      echo(" \n");
      switch($linea){
+        case 0: exit();
         case 1: crearLista($usuario); break;
         case 2: verBiblioteca($usuario, $plataforma); break;
         case 3: verPlataforma($plataforma); break;
