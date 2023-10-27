@@ -17,6 +17,17 @@ class Lista{
     public function guardarCancion($cancion){
     $this->Canciones[] = $cancion;
     }
+    public function verCancion($nombre){
+        foreach($this-> Canciones as $cancion){
+           if($cancion->getCancion() == $nombre){
+             echo "\n";
+             echo "nombre: ".$cancion->getCancion()."\n";
+             echo "artista: ".$cancion->getArtista()."\n";
+             echo "genero: ".$cancion->getGenero()."\n";
+             echo "\n";
+           }
+        }
+    }
 
     public function eliminarCancion($nombre){
         foreach($this->Canciones as $indice => $cancion){
@@ -25,8 +36,17 @@ class Lista{
             }
         }
     }
-    public function modificarCancion(){
-
+    public function modificarCancion($nombre){
+      foreach($this->Canciones as $cancion){
+        if($cancion->getCancion() == $nombre){
+            $newArtisrta = readline("modifique el artista: ");
+            $newGenero = readline("modifique el genero: ");
+            if($newArtisrta != null && $newGenero != null){
+                $cancion->setArtista($newArtisrta);
+                $cancion->setGenero($newGenero);
+            }
+        }
+      }
     }
     public function mostrarCanciones(){
         echo($this->Nombre."\n");

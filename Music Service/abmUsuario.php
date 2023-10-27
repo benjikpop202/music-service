@@ -81,8 +81,9 @@ class Usuario{
           $lista->mostrarCanciones();
           write("0. salir");
           write("1. agregar cancion");
-          write("2. modificar cancion");
-          write("3. eliminar cancion");
+          write("2. ver info de cancion");
+          write("3. mofificar cancion");
+          write("4. eliminar cancion");
           $opcion = readline("ingrese opion: ");
           switch ($opcion) {
                case 0: break;

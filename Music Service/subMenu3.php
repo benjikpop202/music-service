@@ -27,18 +27,16 @@ function verCancion($lista){
 
 function modificarCancion($lista){
 $nombreCancion = readline("ingrese la cancion a modificar: ");
-$newArtisrta = readline("modifique el artista: ");
-$newGenero = readline("modifique el genero: ");
-if($nombreCancion != null || $newArtisrta != null || $newGenero != null){
-$lista->modificarCancion($nombreCancion,$newArtisrta, $newGenero);
+if($nombreCancion != null ){
+$lista->modificarCancion($nombreCancion);
  }
 else{
-    write("cancion no existente");
+    write("cancion no ingresada");
 }
 }
 function eliminarCancion($lista){
     $nombre = readline("ingrese cancion a eliminar: ");
-    $artista = readline("ingrese artista a eliminar: ");
+    $artista = readline("ingrese artista de la cancion: ");
     if($nombre != null || $artista != null){
     $lista->eliminarCancion($nombre,$artista);
     }
