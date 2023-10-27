@@ -1,6 +1,7 @@
 <?php
 
 require_once('abmLista.php');
+require_once('posgresql/database.php');
 
 class Plataforma{
     private $id;
@@ -77,16 +78,20 @@ public function mostrarUsuarios(){
         write("------------------------");
     }
 }
-public function inicioSesion($nombre,$email, $contraseña, $plataforma){
- foreach($this->usuarios as $usuario){
-    if($usuario->getUsuario() == $nombre && $usuario->getEmail() == $email && $usuario->getContraseña() == $contraseña){
-        write("bienvenido de vuelta");
-        SubMenu($usuario,$plataforma);
-    }
-    else{
-        write("hay datos incorrectos o no existe tal usuario");
-    }
- }
+public function inicioSesion($nombre,$email, $contraseña, $status, $plataforma){
+ global $conexion;
+ $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE nombre = ? AND correo = ? AND contrasena = ? AND status = ?');
+ $stmt->execute([$nombre, $email, $contraseña, $status]);
+ $row = $stmt->fetch(PDO::FETCH_ASSOC);
+ if ($row) {
+    echo 'Inicio de sesión exitoso.'."\n";
+    $newUser = new Usuario($nombre, $email, $contraseña, $status);
+    $this->agregarUsuario($newUser);
+    SubMenu($newUser, $plataforma);
+} else {
+    echo 'datos incorrectos.'."\n";
+}
+
 }
 
     

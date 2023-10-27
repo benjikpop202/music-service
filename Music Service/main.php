@@ -54,8 +54,9 @@ function iniciarSesion($plataforma){
 $nombre = readline("ingrese su nombre de usuario: ");
 $email = readline("ingrese su email: ");
 $contraseña = readline("ingrese su contraseña: ");
-if($nombre != null || $email != null || $contraseña != null){
-    $plataforma->inicioSesion($nombre, $email, $contraseña, $plataforma);
+$status = readline("ingrese status: ");
+if($nombre != null || $email != null || $contraseña != null || $status != null){
+    $plataforma->inicioSesion($nombre, $email, $contraseña, $status, $plataforma);
 }
 else{
     write("faltan datos");
