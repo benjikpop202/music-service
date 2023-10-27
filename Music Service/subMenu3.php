@@ -12,6 +12,9 @@ $cancion = new Cancion($nombre, $artista, $genero);
 $lista->guardarCancion($cancion);
 write("cancion agregada exitosamente");
 }
+
+}
+
 function verCancion($lista){
     $nombre = readline("ingrese cancion: ");
     if($nombre != null){
@@ -22,7 +25,6 @@ function verCancion($lista){
     }
 }
 
-}
 function modificarCancion($lista){
 $nombreCancion = readline("ingrese la cancion a modificar: ");
 $newArtisrta = readline("modifique el artista: ");
