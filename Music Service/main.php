@@ -62,9 +62,9 @@ else{
 
 
 if ($conexion) {
-    echo "Conexión exitosa";
+    echo "Conexión exitosa \n";
 } else {
-    echo "No se pudo establecer la conexión";
+    echo "No se pudo establecer la conexión \n";
 }
 
 $line = null;
