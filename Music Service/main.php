@@ -22,6 +22,10 @@ function registrarse($plataforma){
         if($opcion == "1"){
             $stmt = $conexion->prepare('INSERT INTO usuarios (nombre, correo, contrasena, status) VALUES (?, ?, ?, ?) ');
             $stmt->execute([$nombre, $email, $pasword, 'regular']);
+            //encapsular el id del usuario
+            global $usuarioId;
+            $usuarioId = $conexion->lastInsertId();
+            
             $newUser = new Usuario($nombre, $email, $pasword, $opcion);
             $plataforma->agregarUsuario($newUser);
             write("Bienvenido!!");
