@@ -2,11 +2,16 @@
 
 
 class Lista{
+    private $id;
     private $Nombre;
     private $Canciones;
-    public function __construct($Nombre){
+    public function __construct($id, $Nombre){
+     $this->id = $id;
      $this->Nombre = $Nombre;
      $this->Canciones = [];
+    }
+    public function getID(){
+        return $this->id;
     }
     public function getLista(){ 
         return $this->Nombre;

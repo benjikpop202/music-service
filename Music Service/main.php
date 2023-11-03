@@ -7,7 +7,6 @@ require_once('Plataforma.php');
 require_once('subMenu.php');
 require_once('posgresql/database.php');
 
-global $usuarioId;
 
 function registrarse($plataforma){
     global $conexion;
@@ -20,9 +19,10 @@ function registrarse($plataforma){
         write("ingrese 2 para Beneficios Premium sino 1 para gratis");
         $opcion = readline("ingrese opcion: ");
         if($opcion == "1"){
-            $newUser = new Usuario($nombre, $email, $pasword, $opcion);
             $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
             $stmt->execute([$nombre, $email, $pasword, 'regular']);
+            $idUser = $conexion->lastInsertId();
+            $newUser = new Usuario($idUser,$nombre, $email, $pasword, $opcion, $conexion);
             $plataforma->agregarUsuario($newUser);
             write("Bienvenido!!");
             SubMenu($newUser,$plataforma);
@@ -31,9 +31,10 @@ function registrarse($plataforma){
             write("$4 dolares al mes ");
             $numero = readline("ingrese numero de tarjeta: ");
             if($numero != null){
-                $PremuimUser = new Usuario($nombre, $email, $pasword, $opcion);
                 $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
                 $stmt->execute([$nombre, $email, $pasword, 'premium']);
+                $idPuser = $conexion->lastInsertId();
+                $PremuimUser = new Usuario($idPuser,$nombre, $email, $pasword, $opcion, $conexion);
                 $plataforma->agregarUsuario($PremuimUser);
                 write("Bienvenido!!");
                 SubMenu($PremuimUser,$plataforma);

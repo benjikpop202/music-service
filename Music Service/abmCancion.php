@@ -51,10 +51,3 @@ class Cancion{
 
 }
 
-$cancion1 = new Cancion("s-class","stray kids","kpop");
-$cancion2 = new Cancion("love dive","IVE","kpop");
-$cancion3 = new Cancion("mic drop","BTS","kpop");
-$kpop = new Lista("kpop");
-$kpop->guardarCancion($cancion1);
-$kpop->guardarCancion($cancion2);
-//$kpop->getCanciones();

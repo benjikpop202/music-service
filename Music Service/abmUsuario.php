@@ -3,18 +3,36 @@ require_once('abmLista.php');
 require_once('subMenu3.php');
 require_once('subMenu.php');
 class Usuario{
+    private $id;
     private $Nombre;
     private $Email;
     private $Contraseña;
     private $Biblioteca;
     private $Status;
-    public function __construct($Nombre, $Email, $Contraseña, $Status){
+    private $conexion;
+    public function __construct($id, $Nombre, $Email, $Contraseña, $Status, $conexion){
+     $this->id = $id;
      $this->Nombre = $Nombre;
      $this->Email = $Email;
      $this->Contraseña = $Contraseña;
      $this->Status = $Status;
+     $this->conexion = $conexion;
      $this->Biblioteca = [];
+
+     $stmt = $conexion->prepare("SELECT id, nombre FROM listas WHERE usuario_id = $this->id ");
+     $stmt->execute();
+     $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+     foreach($filas as $fila){
+          $listaId = $fila['id'];
+          $nombre = $fila['nombre'];
+
+          $lista = new Lista($listaId, $nombre);
+          $this->Biblioteca[] = $lista;
+     }
      
+    }
+    public function getID(){
+       return $this->id;
     }
     public function getUsuario(){
          return $this->Nombre;

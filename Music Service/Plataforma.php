@@ -14,20 +14,21 @@ class Plataforma{
     $this->usuarios = [];
     $this->listas = [];
 
-    $stmt = $conexion->prepare("SELECT nombre, correo, contrasena, status FROM usuarios");
+    $stmt = $conexion->prepare("SELECT id, nombre, correo, contrasena, status FROM usuarios");
     $stmt->execute();
 
 // Obtener todas las filas como un array asociativo
    $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    foreach ($filas as $fila) {
+    $id = $fila['id'];
     $nombre = $fila['nombre'];
     $correo = $fila['correo'];
     $contrasena = $fila['contrasena'];
     $status = $fila['status'];
 
     // Crear un objeto Usuario (asegúrate de manejar las contraseñas de forma segura, por ejemplo, usando bcrypt)
-    $usuario = new Usuario($nombre, $correo, $contrasena, $status);
+    $usuario = new Usuario($id,$nombre, $correo, $contrasena, $status, $conexion);
     $this->usuarios[] = $usuario;
 }
     }
