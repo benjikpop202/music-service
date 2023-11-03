@@ -97,6 +97,7 @@ public function mostrarUsuarios(){
 public function inicioSesion($email, $contraseña, $plataforma){
 
  foreach($this->usuarios as $usuario){
+
   if($email == $usuario->getEmail() && $contraseña == $usuario->getContraseña() ){
 
     echo "bienvenido de vuelta \n";
