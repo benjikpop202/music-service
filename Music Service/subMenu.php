@@ -4,6 +4,8 @@ require_once('abmLista.php');
 require_once('abmCancion.php');
 require_once('Plataforma.php');
 require_once('subMenu2.php');
+require_once('main.php');
+require_once('posgresql/database.php');
 
 function write($texto){
     echo($texto);
@@ -11,10 +13,13 @@ function write($texto){
 }
 
 function crearLista($user){
+    global $conexion;
     write("crea tu nueva lista!!");
     write("======================");
     $lista = readline("ingrese un nombre para lista: ");
     if($lista != null){
+        $stmt = $conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, ?, ?) ');
+        $stmt->execute([$lista, 'false',]);
         $newlista = new lista($lista);
         $user->Guardar($newlista);
         write("lista creada");

@@ -31,39 +31,6 @@ class Usuario{
     public function getStatus(){
          return $this->Status;
     }
-   /*  public function toJson(){
-          return json_encode($this->toArray());
-     }
-     public static function fromJson($json) {
-        $userData = json_decode($json, true);
-        return self::fromArray($userData);
-    }
-     public function toArray() {
-        return [
-            'Nombre' => $this->Nombre,
-            'Email' => $this->Email,
-            'Contraseña' => $this->Contraseña,
-            'Status' => $this->Status,
-            
-        ];
-    }
-     public static function fromArray($data) {
-        return new Usuario(
-            $data['Nombre'],
-            $data['Email'],
-            $data['Contraseña'],
-            $data['Status']
-        );
-    }
-    public static function cargarDesdeArchivo($archivo) {
-        $jsonString = file_get_contents($archivo);
-        if ($jsonString !== false) {
-            $userData = json_decode($jsonString, true);
-            return self::fromArray($userData);
-        } else {
-            return null; 
-        }
-    }*/
 
     public function Guardar($newLista){
      $this->Biblioteca[] = $newLista;

@@ -7,7 +7,7 @@ require_once('Plataforma.php');
 require_once('subMenu.php');
 require_once('posgresql/database.php');
 
-
+global $usuarioId;
 
 function registrarse($plataforma){
     global $conexion;
@@ -20,13 +20,9 @@ function registrarse($plataforma){
         write("ingrese 2 para Beneficios Premium sino 1 para gratis");
         $opcion = readline("ingrese opcion: ");
         if($opcion == "1"){
-            $stmt = $conexion->prepare('INSERT INTO usuarios (nombre, correo, contrasena, status) VALUES (?, ?, ?, ?) ');
-            $stmt->execute([$nombre, $email, $pasword, 'regular']);
-            //encapsular el id del usuario
-            global $usuarioId;
-            $usuarioId = $conexion->lastInsertId();
-            
             $newUser = new Usuario($nombre, $email, $pasword, $opcion);
+            $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
+            $stmt->execute([$nombre, $email, $pasword, 'regular']);
             $plataforma->agregarUsuario($newUser);
             write("Bienvenido!!");
             SubMenu($newUser,$plataforma);
@@ -35,9 +31,9 @@ function registrarse($plataforma){
             write("$4 dolares al mes ");
             $numero = readline("ingrese numero de tarjeta: ");
             if($numero != null){
-                $stmt = $conexion->prepare('INSERT INTO usuarios (nombre, correo, contrasena, status) VALUES (?, ?, ?, ?) ');
-                $stmt->execute([$nombre, $email, $pasword, 'premium']);
                 $PremuimUser = new Usuario($nombre, $email, $pasword, $opcion);
+                $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
+                $stmt->execute([$nombre, $email, $pasword, 'premium']);
                 $plataforma->agregarUsuario($PremuimUser);
                 write("Bienvenido!!");
                 SubMenu($PremuimUser,$plataforma);
@@ -55,12 +51,10 @@ function registrarse($plataforma){
     }
 }
 function iniciarSesion($plataforma){
-$nombre = readline("ingrese su nombre de usuario: ");
 $email = readline("ingrese su email: ");
 $contraseña = readline("ingrese su contraseña: ");
-$status = readline("ingrese status: ");
-if($nombre != null || $email != null || $contraseña != null || $status != null){
-    $plataforma->inicioSesion($nombre, $email, $contraseña, $status, $plataforma);
+if( $email != null || $contraseña != null ){
+ $plataforma->inicioSesion( $email, $contraseña, $plataforma);
 }
 else{
     write("faltan datos");

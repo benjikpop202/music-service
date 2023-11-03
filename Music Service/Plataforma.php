@@ -4,24 +4,40 @@ require_once('abmLista.php');
 require_once('posgresql/database.php');
 
 class Plataforma{
-    private $id;
     private $nombre;
+    private $conexion;
     private $usuarios;
     private $listas;
-    public function __construct($id,$nombre){
-    $this->id = $id;
+    public function __construct($nombre, $conexion){
     $this->nombre = $nombre;
-    $this-> usuarios = [];
-    $this-> listas = [];
+    $this->conexion = $conexion;
+    $this->usuarios = [];
+    $this->listas = [];
+
+    $stmt = $conexion->prepare("SELECT nombre, correo, contrasena, status FROM usuarios");
+    $stmt->execute();
+
+// Obtener todas las filas como un array asociativo
+   $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+   foreach ($filas as $fila) {
+    $nombre = $fila['nombre'];
+    $correo = $fila['correo'];
+    $contrasena = $fila['contrasena'];
+    $status = $fila['status'];
+
+    // Crear un objeto Usuario (asegúrate de manejar las contraseñas de forma segura, por ejemplo, usando bcrypt)
+    $usuario = new Usuario($nombre, $correo, $contrasena, $status);
+    $this->usuarios[] = $usuario;
+}
     }
-    public function getIdPlataforma(){
-        return $this->id;
-    }
+
     public function getPlataforma(){
         return $this->nombre;
     }
     public function agregarUsuario($NewUsuario){
      $this->usuarios[] = $NewUsuario;
+
     }
     public function eliminarUser($contraseña){
         $usuarioEliminar = false;
@@ -78,27 +94,24 @@ public function mostrarUsuarios(){
         write("------------------------");
     }
 }
-public function inicioSesion($nombre,$email, $contraseña, $status, $plataforma){
- global $conexion;
- $stmt = $conexion->prepare('SELECT * FROM usuarios WHERE nombre = ? AND correo = ? AND contrasena = ? AND status = ?');
- $stmt->execute([$nombre, $email, $contraseña, $status]);
- $row = $stmt->fetch(PDO::FETCH_ASSOC);
- if ($row) {
-    echo 'Inicio de sesión exitoso.'."\n";
-    $newUser = new Usuario($nombre, $email, $contraseña, $status);
-    $this->agregarUsuario($newUser);
-    SubMenu($newUser, $plataforma);
-} else {
-    echo 'datos incorrectos.'."\n";
+public function inicioSesion($email, $contraseña, $plataforma){
+
+ foreach($this->usuarios as $usuario){
+  if($email == $usuario->getEmail() && $contraseña == $usuario->getContraseña() ){
+
+    echo "bienvenido de vuelta \n";
+    SubMenu($usuario, $plataforma);
+
+  }
+}
 }
 
-}
 
     
    
 }
 
-$musicService = new Plataforma(333,"music service");
+$musicService = new Plataforma("music service",$conexion);
 
 
 
