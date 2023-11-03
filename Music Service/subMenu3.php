@@ -1,13 +1,17 @@
 <?php
 require_once('abmUsuario.php');
 require_once('abmCancion.php');
+require_once('posgresql/database.php');
 
 //metodos para las canciones
 function agregarCancion($lista){
+global $conexion;
 $nombre = readline("ingrese nombre de cancion: ");
 $artista = readline("ingrese el nombre del artista: ");
 $genero = readline("ingrese el genero: ");
 if($nombre != null || $artista != null || $genero != null){
+$stmt = $conexion->prepare("INSERT INTO canciones (titulo, artista, genero, lista_id) VALUES (?, ?, ?, ?) ");
+$stmt->execute([$nombre, $artista, $genero, $lista->getID()]);
 $cancion = new Cancion($nombre, $artista, $genero);
 $lista->guardarCancion($cancion);
 write("cancion agregada exitosamente");
