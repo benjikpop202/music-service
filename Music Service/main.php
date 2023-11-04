@@ -16,9 +16,9 @@ function registrarse($plataforma){
     $email = readline("ingrese email: ");
     $pasword = readline("ingrese contraseña: ");
     if($nombre != null || $email != null || $pasword != null){
-        write("ingrese 2 para Beneficios Premium sino 1 para gratis");
+        write("ingrese (premium) para Beneficios Premium sino (regular) para gratis");
         $opcion = readline("ingrese opcion: ");
-        if($opcion == "1"){
+        if($opcion == "regular"){
             $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
             $stmt->execute([$nombre, $email, $pasword, 'regular']);
             $idUser = $conexion->lastInsertId();
@@ -27,7 +27,7 @@ function registrarse($plataforma){
             write("Bienvenido!!");
             SubMenu($newUser,$plataforma);
         }
-        if($opcion == "2"){
+        if($opcion == "premium"){
             write("$4 dolares al mes ");
             $numero = readline("ingrese numero de tarjeta: ");
             if($numero != null){

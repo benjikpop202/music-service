@@ -31,6 +31,19 @@ class Plataforma{
     $usuario = new Usuario($id,$nombre, $correo, $contrasena, $status, $conexion);
     $this->usuarios[] = $usuario;
 }
+
+    $stmt2 = $conexion->prepare("SELECT id, nombre FROM listas WHERE es_publica = true");
+    $stmt2->execute();
+
+    $rows = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach($rows as $row){
+        $listaId = $row['id'];
+        $nombreLista = $row['nombre'];
+
+        $lista = new Lista($listaId, $nombreLista, $conexion);
+        $this->listas[] = $lista;
+    }
     }
 
     public function getPlataforma(){

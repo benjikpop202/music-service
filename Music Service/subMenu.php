@@ -21,7 +21,7 @@ function crearLista($user){
         $stmt = $conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, ?, ?) ');
         $stmt->execute([$lista, 'false', $user->getID()]);
         $listaID = $conexion->lastInsertId();
-        $newlista = new lista($listaID,$lista);
+        $newlista = new lista($listaID,$lista, $conexion);
         $user->Guardar($newlista);
         write("lista creada");
     }

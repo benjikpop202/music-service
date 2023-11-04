@@ -26,7 +26,7 @@ class Usuario{
           $listaId = $fila['id'];
           $nombre = $fila['nombre'];
 
-          $lista = new Lista($listaId, $nombre);
+          $lista = new Lista($listaId, $nombre, $conexion);
           $this->Biblioteca[] = $lista;
      }
      
@@ -99,6 +99,8 @@ class Usuario{
     public function EnviarList($nombre, $plataforma){
      foreach($this->Biblioteca as $lista){
           if($lista->getLista() == $nombre){
+               $stmt = $this->conexion->prepare("UPDATE listas SET es_publica = true WHERE id = $lista->getID() ");
+               $stmt->execute();
                $plataforma->almacenarLista($lista);
           }
      }

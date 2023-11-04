@@ -5,10 +5,24 @@ class Lista{
     private $id;
     private $Nombre;
     private $Canciones;
-    public function __construct($id, $Nombre){
+    private $conexion;
+    public function __construct($id, $Nombre, $conexion){
      $this->id = $id;
      $this->Nombre = $Nombre;
      $this->Canciones = [];
+     $this->conexion = $conexion;
+
+     $stmt = $conexion->prepare("SELECT titulo, artista, genero FROM canciones WHERE id = $this->id ");
+     $stmt->execute();
+     $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+     foreach($filas as $fila){
+        $titulo = $fila['titulo'];
+        $artista = $fila['artista'];
+        $genero = $fila['genero'];
+
+        $cancion = new Cancion($titulo, $artista, $genero);
+        $this->Canciones[] = $cancion;
+     }
     }
     public function getID(){
         return $this->id;
