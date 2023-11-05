@@ -17,7 +17,6 @@ class Plataforma{
     $stmt = $conexion->prepare("SELECT id, nombre, correo, contrasena, status FROM usuarios");
     $stmt->execute();
 
-// Obtener todas las filas como un array asociativo
    $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    foreach ($filas as $fila) {
@@ -27,7 +26,7 @@ class Plataforma{
     $contrasena = $fila['contrasena'];
     $status = $fila['status'];
 
-    // Crear un objeto Usuario (asegúrate de manejar las contraseñas de forma segura, por ejemplo, usando bcrypt)
+    
     $usuario = new Usuario($id,$nombre, $correo, $contrasena, $status, $conexion);
     $this->usuarios[] = $usuario;
 }
@@ -57,16 +56,22 @@ class Plataforma{
         $usuarioEliminar = false;
         foreach($this->usuarios as $indice => $usuario){
          if($usuario->getContraseña() === $contraseña){
+            $id = $usuario->getID();
             unset($this->usuarios[$indice]);
             $usuarioEliminar = true;
+            $DL_user = $this->conexion->prepare("DELETE FROM usuarios WHERE id = :id");
+            $DL_user->bindParam(':id', $id, PDO::PARAM_INT);
+            $DL_user->execute();
             write("gracias por utilizar music service, su cuenta ah sido eliminada");
             exit();
          }
+         
+         }
          if(!$usuarioEliminar){
-            write("contraseña incorrecta");
+            echo("contraseña incorrecta");
          }
         }
-    }
+    
     public function almacenarLista($lista){
         $this->listas[] = $lista;
     }
@@ -90,10 +95,19 @@ class Plataforma{
         
     public function EditarUser($contraseña){
     foreach($this->usuarios as $user){
+        $id_user = $user->getID();
      if($user->getContraseña() == $contraseña){
         write("contraseña actual: ".$user->getContraseña());
         $newContraseña = readline("ingrese nueva contraseña: ");
+        if($newContraseña != null){
+        $UD_user = $this->conexion->prepare("UPDATE usuarios SET contrasena = :newpass WHERE id = :id");
+        $UD_user->bindParam(':newpass', $newContraseña, PDO::PARAM_INT);
+        $UD_user->bindParam(':id', $id_user, PDO::PARAM_INT);
+        $UD_user->execute();
         $user->setContraseña($newContraseña);
+        }else{
+            write("contraseña no ingresada");
+        }
 
      }
     }
