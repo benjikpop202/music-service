@@ -99,7 +99,9 @@ class Usuario{
     public function EnviarList($nombre, $plataforma){
      foreach($this->Biblioteca as $lista){
           if($lista->getLista() == $nombre){
-               $stmt = $this->conexion->prepare("UPDATE listas SET es_publica = true WHERE id = $lista->getID() ");
+               $id = $lista->getID();
+               $stmt = $this->conexion->prepare("UPDATE listas SET es_publica = true WHERE id = :id ");
+               $stmt->bindParam(':id', $id, PDO::PARAM_INT);
                $stmt->execute();
                $plataforma->almacenarLista($lista);
           }

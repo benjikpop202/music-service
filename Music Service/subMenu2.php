@@ -21,7 +21,7 @@ function eliminarlista($user){
     $user->EliminarLista($nombre);
 }
 function enviarLista($user, $plataforma){
- if($user->getStatus() == 2){
+ if($user->getStatus() == "premium"){
   $nombre = readline("ingrese nombre de lista a enviar: ");
   $user->EnviarList($nombre,$plataforma);
   write("envio exitoso!!");
