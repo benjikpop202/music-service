@@ -56,6 +56,10 @@ class Usuario{
     public function EliminarLista($nombre){
      foreach($this->Biblioteca as $indice => $lista){
           if($lista->getLista()===$nombre){
+               $id_lista = $lista->getID();
+               $DL_lista = $this->conexion->prepare("DELETE FROM listas WHERE id = :id");
+               $DL_lista->bindParam(':id', $id_lista, PDO::PARAM_INT);
+               $DL_lista->execute();
                unset($this->Biblioteca[$indice]);
           }
      }
@@ -64,6 +68,7 @@ class Usuario{
     foreach($this->Biblioteca as $lista){
      if($lista->getLista() == $nombre){
           $lista->mostrarCanciones();
+          write(" ");
           write("0. salir");
           write("1. agregar cancion");
           write("2. ver info de cancion");
@@ -84,9 +89,18 @@ class Usuario{
     public function editarLista($nombre){
      foreach($this->Biblioteca as $lista){
           if($lista->getLista() == $nombre){
+               $id_lista = $lista->getID();
                write("nombre actual es: ".$lista->getLista());
                $newNombre = readline("ingrese nuevo nombre: ");
+               if($newNombre != null){
+               $UD_lista = $this->conexion->prepare("UPDATE listas SET nombre = :nombre WHERE id = :id");
+               $UD_lista->bindParam(':nombre', $newNombre, PDO::PARAM_INT);
+               $UD_lista->bindParam('id', $id_lista, PDO::PARAM_INT);
+               $UD_lista->execute();
                $lista->setLista($newNombre);
+               }else{
+                    write("nombre invalido");
+               }
           }
      }
     }
