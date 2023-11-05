@@ -1,13 +1,18 @@
 <?php
 require_once('abmLista.php');
 class Cancion{
+    private $id;
     private $Nombre;
     private $Artista;
     private $Genero;
-    public function __construct($Nombre,$Artista,$Genero){
+    public function __construct($id, $Nombre,$Artista,$Genero){
+        $this->id = $id;
         $this->Nombre = $Nombre;
         $this->Artista = $Artista;
         $this->Genero = $Genero;
+    }
+    public function getID(){
+        return $this->id;
     }
     public function getCancion(){ 
         return $this->Nombre;

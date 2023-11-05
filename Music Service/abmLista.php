@@ -12,15 +12,16 @@ class Lista{
      $this->Canciones = [];
      $this->conexion = $conexion;
 
-     $stmt = $conexion->prepare("SELECT titulo, artista, genero FROM canciones WHERE lista_id = $this->id ");
+     $stmt = $conexion->prepare("SELECT id, titulo, artista, genero FROM canciones WHERE lista_id = $this->id ");
      $stmt->execute();
      $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
      foreach($filas as $fila){
+        $id = $fila['id'];
         $titulo = $fila['titulo'];
         $artista = $fila['artista'];
         $genero = $fila['genero'];
 
-        $cancion = new Cancion($titulo, $artista, $genero);
+        $cancion = new Cancion($id, $titulo, $artista, $genero);
         $this->Canciones[] = $cancion;
      }
     }
@@ -51,6 +52,10 @@ class Lista{
     public function eliminarCancion($nombre){
         foreach($this->Canciones as $indice => $cancion){
             if($cancion->getCancion() === $nombre){
+                $id_cancion = $cancion->getID();
+                $DL_cancion = $this->conexion->prepare("DELETE FROM canciones WHERE id = :id");
+                $DL_cancion->bindParam(':id', $id_cancion, PDO::PARAM_INT);
+                $DL_cancion->execute();
                 unset($this->Canciones[$indice]);
             }
         }
@@ -58,12 +63,29 @@ class Lista{
     public function modificarCancion($nombre){
       foreach($this->Canciones as $cancion){
         if($cancion->getCancion() == $nombre){
-            $newArtisrta = readline("modifique el artista: ");
-            $newGenero = readline("modifique el genero: ");
-            if($newArtisrta != null && $newGenero != null){
-                $cancion->setArtista($newArtisrta);
-                $cancion->setGenero($newGenero);
+            $id_cancion = $cancion->getID();
+            $opcion = readline("elija 1 (artista) o 2 (genero): ");
+            if($opcion == 1){
+                $newArtisrta = readline("modifique el artista: ");
+                if($newArtisrta != null){
+                    $UD_artista = $this->conexion->prepare("UPDATE canciones SET artista = :a WHERE id = :id");
+                    $UD_artista->bindParam(':a', $newArtisrta, PDO::PARAM_INT);
+                    $UD_artista->bindParam(':id', $id_cancion, PDO::PARAM_INT);
+                    $UD_artista->execute();
+                    $cancion->setArtista($newArtisrta);
+                }
             }
+            if($opcion == 2){
+                $newGenero = readline("modifique el genero: ");
+                if($newGenero != null){
+                    $UD_genero = $this->conexion->prepare("UPDATE canciones SET genero = :g WHERE id = :id");
+                    $UD_genero->bindParam(':g', $newGenero, PDO::PARAM_INT);
+                    $UD_genero->bindParam(':id', $id_cancion, PDO::PARAM_INT);
+                    $UD_genero->execute();
+                    $cancion->setGenero($newGenero);
+                }
+            }
+           
         }
       }
     }

@@ -12,7 +12,8 @@ $genero = readline("ingrese el genero: ");
 if($nombre != null || $artista != null || $genero != null){
 $stmt = $conexion->prepare("INSERT INTO canciones (titulo, artista, genero, lista_id) VALUES (?, ?, ?, ?) ");
 $stmt->execute([$nombre, $artista, $genero, $lista->getID()]);
-$cancion = new Cancion($nombre, $artista, $genero);
+$idCancion = $conexion->lastInsertId();
+$cancion = new Cancion($idCancion, $nombre, $artista, $genero);
 $lista->guardarCancion($cancion);
 write("cancion agregada exitosamente");
 }
