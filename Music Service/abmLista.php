@@ -12,7 +12,7 @@ class Lista{
      $this->Canciones = [];
      $this->conexion = $conexion;
 
-     $stmt = $conexion->prepare("SELECT titulo, artista, genero FROM canciones WHERE id = $this->id ");
+     $stmt = $conexion->prepare("SELECT titulo, artista, genero FROM canciones WHERE lista_id = $this->id ");
      $stmt->execute();
      $filas = $stmt->fetchAll(PDO::FETCH_ASSOC);
      foreach($filas as $fila){
@@ -80,28 +80,7 @@ class Lista{
             
         
         }
-       /* public function toJson() {
-            return json_encode($this->toArray());
-        }
-        public static function fromJson($json) {
-            $listaData = json_decode($json, true);
-            return self::fromArray($listaData);
-        }
-        public function toArray() {
-            return [
-                'nombre' => $this->Nombre,
-                'canciones' => $this->Canciones,
-                
-            ];
-        }
-        public static function fromArray($data) {
-            $lista = new Lista($data['nombre']);
-            foreach ($data['canciones'] as $cancionData) {
-                $cancion = new Cancion($cancionData['nombre'], $cancionData['artista'], $cancionData['genero']);
-                $lista->guardarCancion($cancion);
-            }
-            return $lista;
-        }*/
+       
         
                        
     }
