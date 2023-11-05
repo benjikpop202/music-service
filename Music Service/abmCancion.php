@@ -24,29 +24,6 @@ class Cancion{
     public function setGenero($newGenero){
         $this->Genero = $newGenero;
     }
-   /* public function toJson() {
-        return json_encode($this->toArray());
-    }
-    public static function fromJson($json) {
-        $cancionData = json_decode($json, true);
-        return self::fromArray($cancionData);
-    }
-    public function toArray() {
-        return [
-            'nombre' => $this->Nombre,
-            'artista' => $this->Artista,
-            'genero' => $this->Genero,
-            
-        ];
-    }
-    public static function fromArray($data) {
-        return new Cancion(
-            $data['nombre'],
-            $data['artista'],
-            $data['genero']
-            
-        );
-    }*/
                 
 
 }
