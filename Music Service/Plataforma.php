@@ -113,15 +113,7 @@ class Plataforma{
     }
 
 }
-public function mostrarUsuarios(){
-    write("Usuarios registrados");
-    foreach($this->usuarios as $usuario){
-        write("Nombre: ".$usuario->getUsuario());
-        write("Email: ".$usuario->getEmail());
-        write("Contraseña: **********");
-        write("------------------------");
-    }
-}
+
 public function inicioSesion($email, $contraseña, $plataforma){
 
  foreach($this->usuarios as $usuario){
