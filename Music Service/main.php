@@ -8,49 +8,64 @@ require_once('subMenu.php');
 require_once('posgresql/database.php');
 
 
-function registrarse($plataforma){
+function registrarse($plataforma) {
     global $conexion;
     write("Login");
     write("=======");
     $nombre = readline("ingrese nombre: ");
     $email = readline("ingrese email: ");
     $pasword = readline("ingrese contraseña: ");
-    if($nombre != null || $email != null || $pasword != null){
-        write("ingrese (premium) para Beneficios Premium sino (regular) para gratis");
-        $opcion = readline("ingrese opcion: ");
-        if($opcion == "regular"){
-            $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
-            $stmt->execute([$nombre, $email, $pasword, 'regular']);
-            $idUser = $conexion->lastInsertId();
-            $newUser = new Usuario($idUser,$nombre, $email, $pasword, $opcion, $conexion);
-            $plataforma->agregarUsuario($newUser);
-            write("Bienvenido!!");
-            SubMenu($newUser,$plataforma);
+
+    if (validarDatos($nombre, $email, $pasword)) {
+        $opcion = readline("ingrese (premium) para Beneficios Premium sino (regular) para gratis");
+        if ($opcion == "regular") {
+            registrarUsuarioRegular($conexion, $nombre, $email, $pasword, $plataforma);
+        } elseif ($opcion == "premium") {
+            registrarUsuarioPremium($conexion, $nombre, $email, $pasword, $plataforma);
+        } else {
+            write("Ingrese una opción válida");
         }
-        if($opcion == "premium"){
-            write("$4 dolares al mes ");
-            $numero = readline("ingrese numero de tarjeta: ");
-            if($numero != null){
-                $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES ( ?, ?, ?, ?)');
-                $stmt->execute([$nombre, $email, $pasword, 'premium']);
-                $idPuser = $conexion->lastInsertId();
-                $PremuimUser = new Usuario($idPuser,$nombre, $email, $pasword, $opcion, $conexion);
-                $plataforma->agregarUsuario($PremuimUser);
-                write("Bienvenido!!");
-                SubMenu($PremuimUser,$plataforma);
-            }
-            else{
-                write("tarjeta no valida");
-            }
-        }
-        else{
-            write("ingrese opcion valida");
-        }
-    }
-    else{
-        write("faltan datos");
+    } else {
+        write("Faltan datos");
     }
 }
+
+function validarDatos($nombre, $email, $pasword) {
+    return ($nombre != null || $email != null || $pasword != null);
+}
+
+function registrarUsuarioRegular($conexion, $nombre, $email, $pasword, $plataforma) {
+    global $conexion;
+    $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES (?, ?, ?, ?)');
+    $stmt->execute([$nombre, $email, $pasword, 'regular']);
+    $idUser = $conexion->lastInsertId();
+    $newUser = new Usuario($idUser, $nombre, $email, $pasword, 'regular', $conexion);
+    $plataforma->agregarUsuario($newUser);
+    write("Bienvenido!!");
+    SubMenu($newUser, $plataforma);
+}
+
+function registrarUsuarioPremium($conexion, $nombre, $email, $pasword, $plataforma) {
+    write("$4 dolares al mes ");
+    $numero = readline("ingrese numero de tarjeta: ");
+    if (validarTarjeta($numero)) {
+        global $conexion;
+        $stmt = $conexion->prepare('INSERT INTO usuarios(nombre, correo, contrasena, status) VALUES (?, ?, ?, ?)');
+        $stmt->execute([$nombre, $email, $pasword, 'premium']);
+        $idPuser = $conexion->lastInsertId();
+        $PremiumUser = new Usuario($idPuser, $nombre, $email, $pasword, 'premium', $conexion);
+        $plataforma->agregarUsuario($PremiumUser);
+        write("Bienvenido!!");
+        SubMenu($PremiumUser, $plataforma);
+    } else {
+        write("Tarjeta no válida");
+    }
+}
+
+function validarTarjeta($numero) {
+    return ($numero != null);
+}
+
 function iniciarSesion($plataforma){
 $email = readline("ingrese su email: ");
 $contraseña = readline("ingrese su contraseña: ");
