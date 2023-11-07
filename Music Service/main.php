@@ -17,7 +17,7 @@ function registrarse($plataforma) {
     $pasword = readline("ingrese contraseña: ");
 
     if (validarDatos($nombre, $email, $pasword)) {
-        $opcion = readline("ingrese (premium) para Beneficios Premium sino (regular) para gratis");
+        $opcion = readline("ingrese (premium) para Beneficios Premium sino (regular) para gratis: ");
         if ($opcion == "regular") {
             registrarUsuarioRegular($conexion, $nombre, $email, $pasword, $plataforma);
         } elseif ($opcion == "premium") {
