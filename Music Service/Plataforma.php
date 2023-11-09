@@ -89,9 +89,20 @@ class Plataforma{
         foreach($this->listas as $lista){
             if($lista->getLista() == $nombre){
                 $lista->mostrarCanciones();
+                write(" ");
+                write("0. salir");
+                write("1. ver info de canciones");
+                $opcion = readline("ingrese opcion: ");
+                    if($opcion == "1"){
+                        $cancion = readline("ingrese nombre de cancion: ");
+                        $lista->verCancion($cancion);
+                    }
+                }
+                
+
             }
         }
-    }
+    
         
     public function EditarUser($contraseña){
     foreach($this->usuarios as $user){

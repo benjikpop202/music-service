@@ -45,6 +45,7 @@ class Lista{
              echo "artista: ".$cancion->getArtista()."\n";
              echo "genero: ".$cancion->getGenero()."\n";
              echo "\n";
+             
            }
         }
     }
