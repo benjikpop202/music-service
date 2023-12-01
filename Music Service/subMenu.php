@@ -6,6 +6,7 @@ require_once('Plataforma.php');
 require_once('subMenu2.php');
 require_once('main.php');
 require_once('posgresql/database.php');
+require_once('funcionesListas.php');
 
 function write($texto){
     echo($texto);
@@ -13,21 +14,17 @@ function write($texto){
 }
 
 function crearLista($user){
-    global $conexion;
-    write("crea tu nueva lista!!");
-    write("======================");
-    $lista = readline("ingrese un nombre para lista: ");
-    if($lista != null){
-        $stmt = $conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, ?, ?) ');
-        $stmt->execute([$lista, 'false', $user->getID()]);
-        $listaID = $conexion->lastInsertId();
-        $newlista = new lista($listaID,$lista, $conexion);
-        $user->Guardar($newlista);
-        write("lista creada");
-    }
-    else{
-        write("vuelva a ingresar un nombre");
-    }
+   write("CREAR LISTA");
+   write("============");
+   write("0. salir");
+   write("1. crear lista vacia");
+   write("2. crear lista compuesta");
+   write("3. crear lista por genero");
+   $option = readline("ingrese opcion: ");
+   switch($option){
+    case 1: CreateVoidList($user); break;
+    default: break;
+   }
 }
 
 function verBiblioteca($user, $plataforma){
