@@ -23,6 +23,7 @@ function crearLista($user){
    $option = readline("ingrese opcion: ");
    switch($option){
     case 1: CreateVoidList($user); break;
+    case 3: CreateGenereList($user);
     default: break;
    }
 }

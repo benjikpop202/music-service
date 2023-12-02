@@ -17,6 +17,9 @@ $cancion = new Cancion($idCancion, $nombre, $artista, $genero);
 $lista->guardarCancion($cancion);
 write("cancion agregada exitosamente");
 }
+else{
+    write("datos no ingresados");
+}
 
 }
 
