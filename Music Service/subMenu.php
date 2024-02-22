@@ -82,28 +82,34 @@ function verPerfil($user,$plataforma){
 }
 
 
+
 function SubMenu($usuario,$plataforma){
-
-$linea = null;
-while($linea != "0" ){
-     echo "MUSIC SERVICE\n";
-     echo "==============\n";
-     echo "0. salir\n";
-     echo "1. crear lista\n";
-     echo "2. ir a biblioteca\n";
-     echo "3. ir a plataforma\n";
-     echo "4. ir a perfil\n";
-     $linea = readline("ingrese opcion:\n");
-     echo(" \n");
-     switch($linea){
-        case 0: exit();
-        case 1: crearLista($usuario); break;
-        case 2: verBiblioteca($usuario, $plataforma); break;
-        case 3: verPlataforma($plataforma); break;
-        case 4: verPerfil($usuario,$plataforma); break;
-        default: write("error");
-     }
-
-}
-
+    $linea = null;
+    while($linea != "0" ){
+        echo "MUSIC SERVICE\n";
+        echo "==============\n";
+        echo "0. salir\n";
+        echo "1. crear lista\n";
+        echo "2. ir a biblioteca\n";
+        echo "3. ir a plataforma\n";
+        echo "4. ir a perfil\n";
+        echo "5. combinar dos listas en una sola\n"; // Agregamos la opción para combinar listas
+        $linea = readline("ingrese opcion:\n");
+        echo(" \n");
+        switch($linea){
+            case 0: exit();
+            case 1: crearLista($usuario); break;
+            case 2: verBiblioteca($usuario, $plataforma); break;
+            case 3: verPlataforma($plataforma); break;
+            case 4: verPerfil($usuario,$plataforma); break;
+            case 5:
+                // Solicitar al usuario que seleccione las dos listas a combinar
+                $lista1 = seleccionarListaPorUsuario();
+                $lista2 = seleccionarListaPorUsuario();
+                // Llamar a la función para combinar las listas
+                crearListaDeListas($lista1, $lista2);
+                break;
+            
+        }
+    }
 }

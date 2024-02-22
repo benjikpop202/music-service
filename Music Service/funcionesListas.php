@@ -47,3 +47,29 @@ function CreateGenereList($user){
     }
  }
 }
+function crearListaDeListas($lista1, $lista2) {
+    // Verificar si las listas no están vacías
+    if (empty($lista1->getCanciones()) || empty($lista2->getCanciones())) {
+        write("Al menos una de las listas está vacía. No se pueden combinar.");
+        return;
+    }
+
+    // Combinar las canciones de las dos listas en una sola
+    $nuevaLista = new Lista();
+    foreach ($lista1->getCanciones() as $cancion) {
+        $nuevaLista->guardarCancion($cancion);
+    }
+    foreach ($lista2->getCanciones() as $cancion) {
+        $nuevaLista->guardarCancion($cancion);
+    }
+
+    // Eliminar las listas originales
+    $lista1->eliminarTodasLasCanciones();
+    $lista2->eliminarTodasLasCanciones();
+
+    write("Se han combinado las dos listas en una sola y se han eliminado las listas originales.");
+    write("La nueva lista se ha creado correctamente.");
+
+    // Mostrar la nueva lista por consola
+    $nuevaLista->mostrar();
+}
