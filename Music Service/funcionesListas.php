@@ -47,7 +47,7 @@ function CreateGenereList($user){
     }
  }
 }
-function crearListaDeListas($lista1, $lista2) {
+/*function crearListaDeListas($lista1, $lista2) {
     // Verificar si las listas no están vacías
     if (empty($lista1->getCanciones()) || empty($lista2->getCanciones())) {
         write("Al menos una de las listas está vacía. No se pueden combinar.");
@@ -72,4 +72,4 @@ function crearListaDeListas($lista1, $lista2) {
 
     // Mostrar la nueva lista por consola
     $nuevaLista->mostrar();
-}
+}*/
