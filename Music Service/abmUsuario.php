@@ -104,6 +104,11 @@ class Usuario{
           }
      }
     }
+    public function combinarLista($lista1, $lista2){
+     foreach($this->Biblioteca as $listaX ){
+         
+     }
+    }
     public function MostrarLista(){
 
      foreach($this->Biblioteca as $lista){
