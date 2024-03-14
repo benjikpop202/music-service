@@ -71,7 +71,7 @@ function crearListaDeListas($user) {
         $lista1 = readline("ingrese primera lista de combinacion: ");
         $lista2 = readline("ingrese segunda lista de combinacion: ");
         if($lista1 != null || $lista2 != null && $lista1 != $lista2){
-            $user->combinarLista($lista1, $lista2);
+            $user->combinarLista($NewLista, $lista1, $lista2);
         }
     }else{
         write("nombre invalido o ");
