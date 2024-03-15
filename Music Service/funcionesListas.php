@@ -26,17 +26,22 @@ function CreateGenereList($user){
     write("======================");
     $lista = readline("ingrese nombre para lista generica: ");
     $genero = readline("ingrese el genero para la lista: ");
-    if($lista != null || $genero != null){
-       $stmt = $conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, ?, ?) ');
-       $stmt->execute([$lista, 'false', $user->getID()]);
-       $listaID = $conexion->lastInsertId();
-       $newlista = new lista($listaID,$lista, $conexion);
-       $user->Guardar($newlista);
+    $N = readline("ingrese numero de canciones(max:15): ");
+    if($lista != null && $genero != null && $N != null && $N <= 15 && $N >= 1){
        //traer las canciones de la base de datos
-       $stmt2 = $conexion->prepare('SELECT c.id, c.titulo, c.artista, c.genero FROM canciones c JOIN listas l ON c.lista_id = l.id WHERE l.es_publica = true AND c.genero LIKE :genero ORDER BY RANDOM() LIMIT 5 ');
+       $stmt2 = $conexion->prepare("SELECT c.id, c.titulo, c.artista, c.genero FROM canciones c JOIN listas l ON c.lista_id = l.id WHERE l.es_publica = true AND c.genero LIKE :genero ORDER BY RANDOM() LIMIT $N ");
        $stmt2->bindValue(':genero', '%' . $genero . '%', PDO::PARAM_STR);
        $stmt2->execute();
-       $rows = $stmt2->fetchALL(PDO::FETCH_ASSOC);
+       $numFilas = $stmt2->rowCount();
+       if($numFilas === 0 || $numFilas != $N){
+        write("genero no encontrado o cantidad insuficiente");
+       }else{
+        $stmt = $conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, ?, ?) ');
+        $stmt->execute([$lista, 'false', $user->getID()]);
+        $listaID = $conexion->lastInsertId();
+        $newlista = new lista($listaID,$lista, $conexion);
+        $user->Guardar($newlista);
+        $rows = $stmt2->fetchALL(PDO::FETCH_ASSOC);
        foreach($rows as $row){
            $titulo = $row['titulo'];
            $artista = $row['artista'];
@@ -58,6 +63,10 @@ function CreateGenereList($user){
         $newlista->guardarCancion($cancion);
     }
     write("lista creada");
+       }
+       
+    }else{
+        write("campos vacios o nro de canciones invalidas");
     }
  }else{
     write("opcion premium");
@@ -65,12 +74,11 @@ function CreateGenereList($user){
  
  }
 function crearListaDeListas($user) {
-    global $conexion;
-    $NewLista = readline("ingrese nombre de lista");
+    $NewLista = readline("ingrese nombre de lista: ");
     if($NewLista != null){
         $lista1 = readline("ingrese primera lista de combinacion: ");
         $lista2 = readline("ingrese segunda lista de combinacion: ");
-        if($lista1 != null || $lista2 != null && $lista1 != $lista2){
+        if($lista1 != null || $lista2 != null || $lista1 != $lista2){
             $user->combinarLista($NewLista, $lista1, $lista2);
         }
     }else{

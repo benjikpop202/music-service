@@ -106,9 +106,8 @@ class Usuario{
     }
 
      public function combinarLista( $newLista, $lista1, $lista2) {
-               global $conexion;
            
-               // Verificar si las listas están en la biblioteca del usuario
+          // Verificar si las listas están en la biblioteca del usuario
                $lista1_encontrada = false;
                $lista2_encontrada = false;
                $lista1_id = null;
@@ -118,61 +117,47 @@ class Usuario{
                    if ($lista->getLista() === $lista1) {
                        $lista1_encontrada = true;
                        $lista1_id = $lista->getID();
-                       $lista1_nombre = $lista->getLista();
-                       $this->EliminarLista($lista1_nombre);
                     
 
                    }
                    if ($lista->getLista() === $lista2) {
                        $lista2_encontrada = true;
                        $lista2_id = $lista->getID();
-                       $lista2_nombre = $lista->getLista();
-                       $this->EliminarLista($lista2_nombre);
                    }
-                  /* else {
-                    write("Error: Una o ambas listas no existen en la biblioteca del usuario.");
-                    return;
-                   }*/
-               }
+                   }
            
                 if ($lista1_encontrada && $lista2_encontrada){
                    
                // Insertar la nueva lista en la base de datos
-               $stmtInsert = $conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, false, ?)');
+               $stmtInsert = $this->conexion->prepare('INSERT INTO listas (nombre, es_publica, usuario_id) VALUES (?, false, ?)');
                $stmtInsert->execute([$newLista, $this->getID()]);
-               $newListaId = $conexion->lastInsertId();
+               $newListaId = $this->conexion->lastInsertId();
            
-               // Actualizar las canciones para que pertenezcan a la nueva lista
-               $stmtUpdate = $conexion->prepare("UPDATE canciones SET lista_id = ? WHERE lista_id IN (?, ?)");
-               $stmtUpdate->execute([$newListaId, $lista1_id, $lista2_id]);
-           
-               // Eliminar las listas originales
-               $stmtDelete = $conexion->prepare("DELETE FROM listas WHERE id IN (?, ?)");
-               $stmtDelete->execute([$lista1_id, $lista2_id]);
-
-             
                // Recuperar las canciones de las dos listas originales
-               $stmtSelectSongs = $conexion->prepare("SELECT * FROM canciones WHERE lista_id IN (?)");
-               $stmtSelectSongs->execute([$newListaId]);
+               $stmtSelectSongs = $this->conexion->prepare("SELECT * FROM canciones WHERE lista_id IN (?, ?)");
+               $stmtSelectSongs->execute([$lista1_id, $lista2_id]);
                $songs = $stmtSelectSongs->fetchAll(PDO::FETCH_ASSOC);
            
                // Crear un objeto Lista para la nueva lista combinada y guardar las canciones en ella
-               $newLista = new Lista($newListaId, $newLista, $conexion);
+               $newLista = new Lista($newListaId, $newLista, $this->conexion);
                foreach ($songs as $song) {
                    $cancion = new Cancion($song['id'], $song['titulo'], $song['artista'], $song['genero']);
                    $newLista->guardarCancion($cancion);
                }
+
+               // Actualizar las canciones para que pertenezcan a la nueva lista
+               $stmtUpdate = $this->conexion->prepare("UPDATE canciones SET lista_id = ? WHERE lista_id IN (?, ?)");
+               $stmtUpdate->execute([$newListaId, $lista1_id, $lista2_id]);
            
                // Agregar la nueva lista combinada a la biblioteca del usuario
                $this->Biblioteca[] = $newLista;
            
-               // Informar al usuario que la combinación de listas ha sido exitosa
-               //write("Las listas '$lista1' y '$lista2' han sido combinadas exitosamente en '$newLista'.");
-           } 
-                
-           
+               //eliminar las listas 
+               $this->EliminarLista($lista1);
+               $this->EliminarLista($lista2);
                
            }
+          }
           
          
      
