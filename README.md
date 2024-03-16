@@ -84,4 +84,4 @@ Representa las listas de reproducción creadas por los usuarios.
 Tiene una relación uno a muchos con la clase Canción, lo que significa que una lista de reproducción puede contener múltiples canciones.
 Clase Canción:
 Representa canciones individuales en la plataforma.
-Tiene una relación uno a muchos con la clase Lista, ya que las canciones se crean en el 
+Tiene una relación uno a muchos con la clase Lista, ya que las canciones se crean en el contexto de una lista de reproducción y se guardan en esa lista
